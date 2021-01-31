@@ -13,14 +13,14 @@ class DBConnection{
 
     constructor(debugLog: debug.IDebugger){
         debugLog("DBConnection Constructor")
-        const url = `mongodb://localhost:27017/crud_mern` 
+        const url = process?.env?.DB_URL? process.env.DB_URL : ""; 
 
         mongoose.set('useNewUrlParser', true);
         mongoose.set('useFindAndModify', false);
         mongoose.set('useCreateIndex', true);
         mongoose.set('useUnifiedTopology', true);
         
-        debugLog("trying to establish connection")
+        debugLog(`trying to establish connection to ${url}`)
         mongoose.connect(url).then(
             () => { debugLog('Mongoose connection established') },
             (err) => { 

@@ -1,5 +1,6 @@
 import express from 'express';
 import * as http from 'http';
+import * as dotenv from "dotenv";
 import * as bodyparser from 'body-parser';
 
 // import * as winston from 'winston';
@@ -12,9 +13,10 @@ import DBConnection from "./config/database.mongoose.connection";
 // import server from './config/server';
 // import './config/database';
 
+dotenv.config();
 const app : express.Application = express();
 const server: http.Server = http.createServer(app);
-const PORT:Number = 8000;
+const PORT:Number = process?.env["PORT"]? +process.env["PORT"] : 5000;
 const routes: Array<CommonRoutesConfig> = [];
 const debugLog : debug.IDebugger = Debug("CRUD APP");
 
