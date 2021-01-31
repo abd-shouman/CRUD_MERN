@@ -1,9 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+// import logo from './logo.svg';
 import './App.css';
-import Users from './components/Users'
+import { UserForm } from './components/User/userForm';
+import Users from './components/User/Users'
+import { IUser } from './interfaces/types';
 
 function App() {
+  const [users, setUsers] = useState<Array<IUser>>([]);
+
   return (
     <div className="App">
       {/* <header className="App-header">
@@ -20,7 +24,8 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Users />
+      <UserForm users={users} setUsers={setUsers} />
+      <Users users={users} setUsers={setUsers} />
     </div>
   );
 }
