@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { IUser } from "../../interfaces/types";
-import { addUser } from "./UserService"
+import { addUser } from "./UserAPI"
 
 type UserFormProps = {
     users: Array<IUser>,
@@ -32,7 +32,7 @@ export function UserForm(
     }
     // const [transmittingData]
     return (
-        <div className="userForm">
+        <div className="UserForm">
             <form onSubmit={handleSubmit}>
                 <label>
                     First Name:

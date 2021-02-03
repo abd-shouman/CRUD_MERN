@@ -5,7 +5,7 @@ import * as bodyparser from 'body-parser';
 
 // import * as winston from 'winston';
 // import * as expressWinston from 'express-winston';
-// import cors from 'cors';
+import cors from 'cors';
 import { CommonRoutesConfig } from './controllers/common.routes.config';
 import { UsersRoutes } from './controllers/users.routes.config';
 import Debug from "debug";
@@ -22,7 +22,7 @@ const debugLog: debug.IDebugger = Debug("CRUD APP");
 
 //Initiate middleware
 app.use(bodyparser.json())
-// app.use(cors());
+app.use(cors());
 // app.use(expressWinston.logger({
 //   transports: [
 //       new winston.transports.Console()

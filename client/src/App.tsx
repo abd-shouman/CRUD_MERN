@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import { UserForm } from './components/User/userForm';
+import { UserForm } from './components/User/UserForm';
 import Users from './components/User/Users'
 import { IUser } from './interfaces/types';
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { IUser } from '../../interfaces/types'
 import "./user.css"
 import UserItem from './UserItem'
-import { getAllUsers } from './UserService'
+import { getAllUsers, updateUser, deleteUser } from './UserAPI'
 
 type UserProps = {
   users: Array<IUser>,
@@ -10,25 +10,85 @@ type UserProps = {
 }
 
 export default function Users(
-  { users, setUsers }: UserProps
-) {
-  // const [users, setUsers] = useState<Array<IUser>>([]);
+  { users, setUsers }: UserProps) {
+  const [currentlyEditingIndex, setEditingIndex] = useState<number>(-1);
+
+  const updateUserInfo = (e: any) => {
+    let userIndex: number = e.target.dataset["userindex"];
+    let userattribute: keyof IUser = e.target.dataset["userattribute"]
+    let newArr = [...users];
+    newArr[userIndex][userattribute] = e.target.value; // replace e.target.value with whatever you want to change it to
+    setUsers(newArr)
+  }
+
+  const saveUser = (e: any) => {
+    let userIndex: number = e.target.dataset["userindex"];
+    let _id = users[userIndex]._id ? users[userIndex]._id : undefined;
+    let newUsersList: IUser[]
+
+    if (_id !== undefined) {
+      updateUser(_id, users[userIndex])
+        .then((updatedUser) => {
+          newUsersList = [...users]
+          newUsersList.splice(userIndex, 1, updatedUser)
+          setUsers(newUsersList);
+        }).catch(err => {
+          console.error("failed to update user");
+          console.error(err)
+        })
+        .finally(() => {
+          setEditingIndex(-1)
+        })
+    } else {
+      alert("Invalid user selected")
+    }
+  }
+
+  const startEditing = (e: any) => {
+    console.log(e.target.dataset["userindex"])
+
+    let userIndex: number = e.target.dataset["userindex"];
+    setEditingIndex(userIndex)
+  }
+
+  const removeUser = (e: any) => {
+    console.log(e.target.dataset["userindex"])
+
+    let userIndex: number = e.target.dataset["userindex"];
+    let _id = users[userIndex]._id ? users[userIndex]._id : undefined;
+    if (_id !== undefined) {
+      deleteUser(_id)
+        .then(() => {
+          setUsers(users.slice(0, userIndex).concat(users.slice((userIndex + 1), users.length)));
+        }).catch(err => {
+          console.error("failed to delete user");
+          console.error(err)
+        })
+    } else {
+      alert("Invalid user selected")
+    }
+  }
+
   useEffect(() => {
     getAllUsers()
       .then((res: IUser[]) => {
         setUsers(res);
       })
       .catch(err => {
-        console.error("failed to fetch");
+        console.error("failed to add user");
         console.error(err)
       })
 
   }, [])
 
   return (
-    <table>{users?.map((user, id) =>
-      <UserItem key={id} user={user} />
-    )}
+    <table>
+      <tbody>
+        {users?.map((user, i) =>
+          <UserItem key={i} userindex={i} user={user} currentlyEditingIndex={currentlyEditingIndex}
+            updateUserInfo={updateUserInfo} startEditing={startEditing} saveUser={saveUser} removeUser={removeUser} />
+        )}
+      </tbody>
     </table>
   );
 
