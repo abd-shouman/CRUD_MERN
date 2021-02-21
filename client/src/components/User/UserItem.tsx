@@ -49,13 +49,12 @@ export default function UserItem({
     const [localUser, setLocalUser] = useState<IUser>(user)
     //Always sync localUser with user props
     useEffect(() => {
-        if (user != localUser) {
+        if (user !== localUser) { ///possible equality issue, change comparison to byID (how did it even work in the first place?!)
             console.log("User prop changed. Updating local user")
             setLocalUser(user)
         } else {
             console.log("User prop changed. local user remains the same")
         }
-
     }, [user])
 
     const startEditing = (e: any) => {

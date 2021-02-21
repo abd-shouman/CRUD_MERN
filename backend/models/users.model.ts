@@ -7,7 +7,7 @@ export interface IUser extends Document {
     email: string,
     firstName: string,
     lastName: string,
-    dob?: string
+    dob?: Date
 }
 
 const userSchema = new Schema({

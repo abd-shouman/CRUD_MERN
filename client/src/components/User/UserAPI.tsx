@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import { isConstructorDeclaration } from 'typescript';
 import { IUser } from '../../interfaces/types';
 
 export const getAllUsers = () => {
@@ -19,6 +20,12 @@ export const addUser = (userData: IUser) => {
             .then(response => {
                 return resolve(response.data)
             }).catch(err => {
+                // console.error("UserAPI | addUser")
+                // console.error(err)
+                if (err.response) {
+                    let message = Object.values(err.response.data)[0];
+                    return reject(message);
+                }
                 return reject(err)
             })
     })

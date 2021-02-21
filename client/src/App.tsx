@@ -4,30 +4,31 @@ import './App.css';
 import { UserForm } from './components/User/UserForm';
 import Users from './components/User/Users'
 import { IUser } from './interfaces/types';
+// import CssBaseline from '@material-ui/core/CssBaseline';
+// import Container from '@material-ui/core/Container';
+// import Grid from '@material-ui/core/Grid';
+import { CssBaseline, Container, Grid } from '@material-ui/core'
 
 function App() {
   const [users, setUsers] = useState<Array<IUser>>([]);
 
   return (
-    <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <UserForm users={users} setUsers={setUsers} />
-      <Users users={users} setUsers={setUsers} />
-    </div>
+    <>
+      <CssBaseline>
+        <Container maxWidth="md">
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <UserForm users={users} setUsers={setUsers} />
+            </Grid>
+            <Grid item xs={12}>
+              <Users users={users} setUsers={setUsers} />
+            </Grid>
+          </Grid>
+        </Container>
+      </CssBaseline>
+    </>
   );
 }
+
 
 export default App;
