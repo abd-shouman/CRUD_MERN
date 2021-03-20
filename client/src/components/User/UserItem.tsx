@@ -65,10 +65,13 @@ export default function UserItem({
             alert("Invalid User. Can't update user info")
             return
         }
-        let index: keyof IUser = e.target.dataset["userattribute"]
-        let updatedLocalUser = { ...localUser }
-        updatedLocalUser[index] = e.target.value
-        setLocalUser(updatedLocalUser)
+        if (e.target.dataset["userattribute"] != undefined) {
+            let index: keyof IUser = e.target.dataset["userattribute"]
+            let updatedLocalUser: IUser = { ...localUser, [index]: e.target.value }
+            // updatedLocalUser[index] = e.target.value
+            // updatedLocalUser[index] = e.target.value
+            setLocalUser(updatedLocalUser)
+        }
     }
 
     return (

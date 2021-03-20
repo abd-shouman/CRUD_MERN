@@ -1,6 +1,5 @@
 
 import axios from 'axios';
-import { isConstructorDeclaration } from 'typescript';
 import { IUser } from '../../interfaces/types';
 
 export const getAllUsers = () => {

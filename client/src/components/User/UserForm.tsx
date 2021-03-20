@@ -12,7 +12,6 @@ import {
     Button,
     CircularProgress,
     Backdrop,
-    Snackbar,
     makeStyles,
     Modal,
     IconButton,
@@ -20,7 +19,7 @@ import {
 } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import DateFnsUtils from '@date-io/date-fns';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import SnackbarAlert, { VerticalDirection, HorizontalDirection } from '../../helpers/SnackbarAlert'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 
@@ -49,24 +48,25 @@ export function UserForm(
     const [localUser, setLocalUser] = useState<IUser>({ firstName: "", lastName: "", email: "", dob: undefined });
     const [dataTransmitting, setDataTransmitting] = useState<boolean>(false);
     const [submitSucesseded, setSubmitSucesseded] = useState<boolean>(false);
-    const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const [submitFailed, setSubmitFailed] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<String>("");
 
     const classes = useStyles();
 
-    function Alert(props: AlertProps) {
-        return <MuiAlert elevation={6} variant="filled" {...props} />;
-    }
+    // function Alert(props: AlertProps) {
+    //     return <MuiAlert elevation={6} variant="filled" {...props} />;
+    // }
 
     const handleSubmit = (evt: any) => {
         evt.preventDefault();
         setDataTransmitting(true)
         addUser(localUser)
             .then(addedUser => {
+                addedUser.id = users.length
                 setUsers([...users, addedUser])
+                setOpenModal(false)
                 setSubmitSucesseded(true)
-                setOpen(false)
                 setLocalUser({ firstName: "", lastName: "", email: "", dob: undefined }) //Reset the form
             })
             .catch(err => {
@@ -91,7 +91,7 @@ export function UserForm(
                     <IconButton
                         aria-label="add"
                         color="primary"
-                        onClick={() => setOpen(true)}
+                        onClick={() => setOpenModal(true)}
                     >
                         <AddCircle className={classes.addButton} />
                     </IconButton>
@@ -100,14 +100,14 @@ export function UserForm(
             </Grid>
 
             <Modal
-                open={open}
-                onClose={() => { setOpen(false) }}
+                open={openModal}
+                onClose={() => { setOpenModal(false) }}
                 aria-labelledby="add user modal"
                 aria-describedby="modal containing add user form"
                 disableBackdropClick={true}
                 className={classes.modal}
             >
-                <Slide direction="up" in={open} mountOnEnter unmountOnExit>
+                <Slide direction="up" in={openModal} mountOnEnter unmountOnExit>
                     <Grid container >
                         <Grid item xs={1} sm={2}></Grid>
                         <Grid item xs={10} sm={8}>
@@ -190,7 +190,8 @@ export function UserForm(
                                 <Backdrop open={dataTransmitting}>
                                     <CircularProgress color="inherit" />
                                 </Backdrop>
-                                <Snackbar
+
+                                {/* <Snackbar
                                     anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                                     open={submitSucesseded}
                                     onClose={() => setSubmitSucesseded(false)}
@@ -211,12 +212,32 @@ export function UserForm(
                                     <Alert severity="error">
                                         {errorMsg}
                                     </Alert>
-                                </Snackbar>
+                                </Snackbar> */}
                             </form>
                         </Grid>
                     </Grid>
                 </Slide>
             </Modal>
+            <SnackbarAlert
+                vertical={VerticalDirection.top}
+                horizontal={HorizontalDirection.center}
+                open={submitSucesseded}
+                onClose={setSubmitSucesseded}
+                autoHideDuration={3000}
+                snackKey='successSnackbar'
+                severity="success"
+                message="User Added Successfully!"
+            />
+            <SnackbarAlert
+                vertical={VerticalDirection.top}
+                horizontal={HorizontalDirection.center}
+                open={submitFailed}
+                onClose={setSubmitFailed}
+                autoHideDuration={5000}
+                snackKey='failedSnackbar'
+                severity="error"
+                message={errorMsg}
+            />
         </>
         // </Container>
     )

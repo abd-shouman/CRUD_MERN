@@ -4,5 +4,6 @@ export interface IUser {
     email: string,
     firstName: string,
     lastName: string,
-    dob?: Date
+    dob?: Date,
+    id?: number
 }  
