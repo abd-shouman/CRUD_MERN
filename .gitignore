@@ -1,2 +1,4 @@
 backend/build/
 node_modules/
+backend/.env.production
+backend/.env
