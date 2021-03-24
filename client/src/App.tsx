@@ -11,7 +11,6 @@ import { CssBaseline, Container, Grid } from '@material-ui/core'
 
 function App() {
   const [users, setUsers] = useState<Array<IUser>>([]);
-
   return (
     <>
       <CssBaseline>

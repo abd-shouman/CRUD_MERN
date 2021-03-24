@@ -2,9 +2,13 @@
 import axios from 'axios';
 import { IUser } from '../../interfaces/types';
 
+const resourcesURL = (process.env.NODE_ENV === 'production') ?
+    "https://shouman-mern-backend.herokuapp.com/"
+    : "http://localhost:8000/"
+
 export const getAllUsers = () => {
     return new Promise<IUser[]>((resolve, reject) => {
-        axios.get('http://localhost:8000/users')
+        axios.get(`${resourcesURL}users`)
             .then(response => {
                 return resolve(response.data)
             }).catch(err => {
@@ -15,7 +19,7 @@ export const getAllUsers = () => {
 
 export const addUser = (userData: IUser) => {
     return new Promise<IUser>((resolve, reject) => {
-        axios.post("http://localhost:8000/users", userData)
+        axios.post(`${resourcesURL}users`, userData)
             .then(response => {
                 return resolve(response.data)
             }).catch(err => {
@@ -31,7 +35,7 @@ export const addUser = (userData: IUser) => {
 }
 export const updateUser = (_userId: string, updatedUser: IUser) => {
     return new Promise<IUser>((resolve, reject) => {
-        axios.patch(`http://localhost:8000/users/${_userId}`, updatedUser)
+        axios.patch(`${resourcesURL}${_userId}`, updatedUser)
             .then(response => {
                 return resolve(response.data)
             }).catch(err => {
@@ -42,7 +46,7 @@ export const updateUser = (_userId: string, updatedUser: IUser) => {
 
 export const deleteUser = (_userId: string) => {
     return new Promise<IUser>((resolve, reject) => {
-        axios.delete(`http://localhost:8000/users/${_userId}`)
+        axios.delete(`${resourcesURL}${_userId}`)
             .then(response => {
                 return resolve(response.data)
             }).catch(err => {
