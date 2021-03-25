@@ -22,7 +22,12 @@ const debugLog: debug.IDebugger = Debug("CRUD APP");
 
 //Initiate middleware
 app.use(bodyparser.json())
-app.use(cors());
+
+// var corsOptions = {
+//   origin: 'https://shouman-crud-mern.netlify.app/',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
+// app.use(cors(corsOptions));
 // app.use(expressWinston.logger({
 //   transports: [
 //       new winston.transports.Console()
