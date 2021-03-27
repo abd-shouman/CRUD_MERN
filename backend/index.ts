@@ -22,6 +22,7 @@ const debugLog: debug.IDebugger = Debug("CRUD APP");
 
 //Initiate middleware
 app.use(bodyparser.json())
+app.use(cors())
 
 // var corsOptions = {
 //   origin: 'https://shouman-crud-mern.netlify.app/',
