@@ -10,16 +10,16 @@ export class UsersRoutes extends CommonRoutesConfig {
     configureRoutes() {
         this.app.route('/users')
             .all((req: express.Request, res: express.Response, next: express.NextFunction) => {
-                // let origin: string | undefined = req.headers.origin;
-                // this.debugLog(`Recieved Request from Origin: ${origin}`)
-                // if (origin && this.allowedDomains.indexOf(origin) > -1) {
-                //     this.debugLog(`Origin: ${origin} is included in the lsit of allowed domains`)
-                //     res.setHeader('Access-Control-Allow-Origin', origin);
-                // }
+                let origin: string | undefined = req.headers.origin;
+                this.debugLog(`Recieved Request from Origin: ${origin}`)
+                if (origin && this.allowedDomains.indexOf(origin) > -1) {
+                    this.debugLog(`Origin: ${origin} is included in the lsit of allowed domains`)
+                    res.setHeader('Access-Control-Allow-Origin', origin);
+                }
 
-                // res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE');
-                // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
-                // res.setHeader('Access-Control-Allow-Credentials', 1);
+                res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE');
+                res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
+                res.setHeader('Access-Control-Allow-Credentials', 1);
 
                 next();
             })
@@ -55,14 +55,14 @@ export class UsersRoutes extends CommonRoutesConfig {
                 // middleware function runs before any request to /users/:userId
                 //hanles authorization/authentication
                 //Check if cors is allowed
-                // let origin: string | undefined = req.headers.origin;
-                // if (origin && this.allowedDomains.indexOf(origin) > -1) {
-                //     res.setHeader('Access-Control-Allow-Origin', origin);
-                // }
+                let origin: string | undefined = req.headers.origin;
+                if (origin && this.allowedDomains.indexOf(origin) > -1) {
+                    res.setHeader('Access-Control-Allow-Origin', origin);
+                }
 
-                // res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE');
-                // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
-                // res.setHeader('Access-Control-Allow-Credentials', 1);
+                res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE');
+                res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
+                res.setHeader('Access-Control-Allow-Credentials', 1);
 
                 next();
             })
